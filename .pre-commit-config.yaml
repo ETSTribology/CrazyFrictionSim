@@ -1,0 +1,9 @@
+repos:
+  - repo: https://github.com/rust-lang/rust-clippy
+    rev: 9cf416dc6ec9d7ebc8df299ca970e4a92efa2596
+    hooks:
+      - id: clippy
+        name: cargo clippy
+        entry: cargo clippy -- -D warnings
+        language: system
+        types: [rust]

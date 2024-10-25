@@ -1,0 +1,49 @@
+name: Nix Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Nix
+      - name: Set up Nix
+        uses: cachix/install-nix-action@v18
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      # Step 3: Build and test using Nix shell for Rust
+      - name: Run Rust build and test using Nix
+        run: |
+          nix-shell nix/default.nix --run "cargo build --verbose && cargo test --verbose"
+
+      # Step 4: Build WebAssembly using Nix
+      - name: Build WebAssembly
+        run: |
+          nix-shell nix/default.nix --run "wasm-pack build --target web"
+
+      # Step 5: Build Python bindings using Maturin
+      - name: Build Python bindings with Maturin
+        run: |
+          nix-shell nix/default.nix --run "maturin develop"
+
+      # Step 6: Run Python tests
+      - name: Run Python tests
+        run: |
+          nix-shell nix/default.nix --run "pytest tests/python"
+
+      # Step 7: Deploy artifacts (optional)
+      # Add steps to deploy or publish your artifacts if necessary

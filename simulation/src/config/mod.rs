@@ -1,0 +1,9 @@
+pub mod boundary_conditions;
+pub mod contact;
+pub mod geometry;
+pub mod materials;
+pub mod output;
+pub mod simulation_data;
+pub mod space;
+pub mod solver;
+pub mod time_settings;
