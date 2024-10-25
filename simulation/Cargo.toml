@@ -17,6 +17,8 @@ tokio = { version = "1.41.0", features = ["full"] }
 pyo3 = { version = "0.22.5", features = ["extension-module"] }
 maturin = "1.7.4"
 argmin = "0.10.0"
+ndarray = "0.16.1"
+cust = "0.3.2"
 
 [build-dependencies]
 bindgen = "0.70.1"
